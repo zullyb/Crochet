@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crafting Website</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .menu {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .menu select {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+        }
+        
+        section {
+            display: none;
+            margin-bottom: 50px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        section.active {
+            display: block;
+        }
+        .home-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #333;
+        }
+        .description {
+            max-width: 60%;
+        }
+        h1 {
+            color: #333;
+        }
+        .home-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .home-menu-item {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 22px; /* Increased font size */
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000; /* Added text shadow */
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            background-color: rgba(0, 0, 0, 0.7); /* Adjusted background transparency */
+        }
+        .home-menu-item:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu">
+    <select id="menu" onchange="navigateToSection()">
+        <option value="home">Home</option>
+        <option value="about">About</option>
+        <option value="crocheting">Crocheting</option>
+        <option value="knitting">Knitting</option>
+        <option value="amigurumi">Amigurumi</option>
+        <option value="timer">Timer</option>
+        <option value="spotify">Spotify</option>
+        <option value="todo">To Do</option>
+    </select>
+</div>
+
+<div class="container">
+    <section id="home" class="active">
+        <h1>Home</h1>
+        <div class="home-menu">
+            <div class="home-menu-item" style="background: url('crocheting.png') no-repeat center/cover;" onclick="navigateToSection('crocheting')">Crocheting</div>
+            <div class="home-menu-item" style="background: url('knitting.png') no-repeat center/cover;" onclick="navigateToSection('knitting')">Knitting</div>
+            <div class="home-menu-item" style="background: url('amigurumi.png') no-repeat center/cover;" onclick="navigateToSection('amigurumi')">Amigurumi</div>
+            <div class="home-menu-item" style="background: url('timer.png') no-repeat center/cover;" onclick="navigateToSection('timer')">Timer</div>
+            <div class="home-menu-item" style="background: url('spotify.png') no-repeat center/cover;" onclick="navigateToSection('spotify')">Spotify</div>
+            <div class="home-menu-item" style="background: url('todo.png') no-repeat center/cover;" onclick="navigateToSection('todo')">To Do</div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h1>About</h1>
+        <div class="home-content">
+            <img src="profile.jpeg" alt="Profile Photo" class="profile-photo">
+            <div class="description">
+                <h2>Zuleyma Baltazar</h2>
+                <p>Welcome to my crafting corner! I'm an avid crocheter and a beginner knitter, passionate about creating beautiful, handmade pieces.</p>
+                <p>To help fellow crafters stay organized, I've introduced a project tracking section on this website. Here, you can count rows and keep detailed records of your crochet and knitting progress. Join me in exploring the joy of yarn crafts, one stitch at a time!</p>
+            </div>
+        </div>
+    </section>
+    <!-- Crocheting section with added row counter -->
+    <section id="crocheting" style="background-image: url('azul.png');">
+        <h1 style="text-align: center; margin-bottom: 20px;">Crocheting</h1>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <label for="projectTitle">
+            <input type="text" id="projectTitle" placeholder="Enter your project title" onchange="setProjectTitle()">
+            <p><span id="projectTitleDisplay"></span></p>
+        </div>
+        <div class="crochet-container">
+            <div class="counter-reset-container">
+                <div class="row-counter">
+                    <button onclick="decrementRowCount()">-</button>
+                    <div class="circle" id="rowCounter">0</div>
+                    <button onclick="incrementRowCount()">+</button>
+                </div>
+                <div class="reset-button">
+                    <button onclick="resetRowCount()" style="background: none; border: none; padding: 0;">
+                        <img src="reset.png" alt="Reset" style="width: 30px; height: 30px;">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script src="script.js"></script>
+<script>
+    function navigateToSection(sectionId) {
+        const menu = document.getElementById('menu');
+        if (sectionId) {
+            menu.value = sectionId;
+        } else {
+            sectionId = menu.value;
+        }
+        const sections = document.querySelectorAll('section');
+        
+        sections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === sectionId) {
+                section.classList.add('active');
+            }
+        });
+    }
+
+    // Initial display of the home section
+    document.getElementById('home').classList.add('active');
+</script>
+<script src="script.js"></script>
+</body>
+</html>
